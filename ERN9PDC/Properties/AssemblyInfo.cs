@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ERN9PDC")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Engineering Road Note 9 Pavement Design Calculator")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Main Roads Western Australia")]
 [assembly: AssemblyProduct("ERN9PDC")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © Michael Delpach and Xiaoyan Mao 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

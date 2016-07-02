@@ -11,89 +11,95 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen"
         MinWidth="640" Width="640" Height="640" SizeToContent="WidthAndHeight">
-    <StackPanel Orientation="Vertical" Margin="10,10,10,10">
-        <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Subgrade CBR" />
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">Input subgrade design CBR (%)</TextBlock>
-            <ComboBox x:Name="cboSubgradeCBR" MinWidth="100"></ComboBox>
-        </StackPanel>
-        <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Traffic data" />
-        <TabControl x:Name="tpTrafficMethod2">
-            <TabItem Header="Method 2">
-                <StackPanel Orientation="Vertical" Margin="5">
-                    <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Traffic Method 2: Traffic data in terms of proportion of heavy vehicles" />
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Initial number of vehicles daily in one direction (1-way AADT), n</TextBlock>
-                        <TextBox Grid.Row="0" Grid.Column="1" md:TextFieldAssist.Hint="2000" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-
-                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles, c (%)</TextBlock>
-                        <TextBox Grid.Row="1" Grid.Column="1" md:TextFieldAssist.Hint="6.8" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-
-                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
-                        <TextBox Grid.Row="2" Grid.Column="1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                        <Button  Grid.Row="2" Grid.Column="2" Margin="5">Two traffic growth rates</Button>
-
-                        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
-                        <TextBox Grid.Row="3" Grid.Column="1" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                        <Button  Grid.Row="3" Grid.Column="2" Margin="5">Select d</Button>
-
-                        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Number of ESA per heavy vehicle, F</TextBlock>
-                        <TextBox Grid.Row="4" Grid.Column="1" md:TextFieldAssist.Hint="2.86" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                        <Button  Grid.Row="4" Grid.Column="2" Margin="5">Select F</Button>
-
-                        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Pavement design life, P (years)</TextBlock>
-                        <TextBox Grid.Row="5" Grid.Column="1" md:TextFieldAssist.Hint="40" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-
-                        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Cumulative growth factor, R</TextBlock>
-                        <TextBox Grid.Row="6" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" IsReadOnly="True" />
-
-                        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Calculated design traffic (ESA)</TextBlock>
-                        <TextBox Grid.Row="7" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                    </Grid>
+    <md:DialogHost>
+        <StackPanel Orientation="Vertical" Margin="10,10,10,10">
+            <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Subgrade CBR" />
+            <md:Card Margin="5">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">Input subgrade design CBR (%)</TextBlock>
+                        <ComboBox x:Name="cboSubgradeCBR" MinWidth="100" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                    </StackPanel>
                 </StackPanel>
-            </TabItem>
-            <TabItem Header="Method 1">
-            </TabItem>
-        </TabControl>
-        <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Granular pavement thickness" />
-        <Grid Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            </md:Card>
+            <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Traffic data" />
+            <TabControl x:Name="tpTrafficMethod2">
+                <TabItem Header="Method 2">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Traffic Method 2: Traffic data in terms of proportion of heavy vehicles" />
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Center">Calculated</TextBlock>
-            <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Rounded to</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Initial number of vehicles daily in one direction (1-way AADT), n</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="1" md:TextFieldAssist.Hint="2000" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
 
-            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Minimum thickness of all granular material (mm)</TextBlock>
-            <TextBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" />
-            <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles, c (%)</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="1" md:TextFieldAssist.Hint="6.8" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
 
-            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Minimum thickness of basecourse material (mm)</TextBlock>
-            <TextBox Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" />
-            <TextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
-        </Grid>
-    </StackPanel>
+                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
+                            <TextBox Grid.Row="2" Grid.Column="1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                            <Button  Grid.Row="2" Grid.Column="2" Margin="5" ToolTip="Two traffic growth rates">...</Button>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
+                            <TextBox x:Name="txtDistributionFactor" Grid.Row="3" Grid.Column="1" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                            <Button  Grid.Row="3" Grid.Column="2" Margin="5" ToolTip="Select d" Click="btnLaneDistribution">...</Button>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Number of ESA per heavy vehicle, F</TextBlock>
+                            <TextBox Grid.Row="4" Grid.Column="1" md:TextFieldAssist.Hint="2.86" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                            <Button  Grid.Row="4" Grid.Column="2" Margin="5" ToolTip="Select F">...</Button>
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Pavement design life, P (years)</TextBlock>
+                            <TextBox Grid.Row="5" Grid.Column="1" md:TextFieldAssist.Hint="40" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+
+                            <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Cumulative growth factor, R</TextBlock>
+                            <TextBox Grid.Row="6" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" IsReadOnly="True" />
+
+                            <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Calculated design traffic (ESA)</TextBlock>
+                            <TextBox Grid.Row="7" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Method 1">
+                </TabItem>
+            </TabControl>
+            <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Granular pavement thickness" />
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Center">Calculated</TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Rounded to</TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Minimum thickness of all granular material (mm)</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" />
+                <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Minimum thickness of basecourse material (mm)</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" />
+                <TextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+            </Grid>
+        </StackPanel>
+    </md:DialogHost>
 </Window>

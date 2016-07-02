@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,14 @@ namespace ERN9PDC
         public MainWindow()
         {
             InitializeComponent();
+            cboSubgradeCBR.ItemsSource = Enumerable.Range(1, 30);
+        }
+
+        private async void btnLaneDistribution(object sender, RoutedEventArgs e)
+        {
+            LaneDistributionSelector dlg = new LaneDistributionSelector();
+            await DialogHost.Show(dlg);
+            txtDistributionFactor.Text = dlg.d.ToString();
         }
     }
 }
