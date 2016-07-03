@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="ERN9PDC.AxleEquivalencyFactorSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ERN9PDC"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Orientation="Vertical" Margin="5">
+        <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Select Axle Equivalency Factor, F" Margin="5" />
+        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Axle Equivalency Factors for General Use" Margin="5" />
+        <ListView Margin="10" Name="lvFactorsGeneral" SelectionMode="Single" SelectionChanged="lvFactorsGeneral_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Location"  Width="350" DisplayMemberBinding="{Binding Location}" ></GridViewColumn>
+                    <GridViewColumn Header="Axle Equivalency Factor, F" DisplayMemberBinding="{Binding AxleEquivalencyFactor}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Axle Equivalency Factors at culway sites in WA for Specific Use" Margin="5" />
+        <ListView Margin="10" Name="lvFactorsSpecific" SelectionMode="Single" SelectionChanged="lvFactorsSpecific_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Location" Width="350" DisplayMemberBinding="{Binding Location}" ></GridViewColumn>
+                    <GridViewColumn Header="Axle Equivalency Factor, F"  DisplayMemberBinding="{Binding AxleEquivalencyFactor}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="btnOk" Margin="10" Click="btnOk_Click">OK</Button>
+            <Button x:Name="btnCancel" Margin="10" Click="btnCancel_Click">Cancel</Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

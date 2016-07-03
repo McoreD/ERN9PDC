@@ -27,11 +27,23 @@ namespace ERN9PDC
             cboSubgradeCBR.ItemsSource = Enumerable.Range(1, 30);
         }
 
-        private async void btnLaneDistribution(object sender, RoutedEventArgs e)
+        private async void btnLaneDistributionFactor_Click(object sender, RoutedEventArgs e)
         {
-            LaneDistributionSelector dlg = new LaneDistributionSelector();
+            LaneDistributionFactorSelector dlg = new LaneDistributionFactorSelector();
             await DialogHost.Show(dlg);
-            txtDistributionFactor.Text = dlg.d.ToString();
+            txtLaneDistributionFactor.Text = CalcHelper.d_LaneDistributionFactor.ToString();
+        }
+
+        private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)
+        {
+            AxleEquivalencyFactorSelector dlg = new AxleEquivalencyFactorSelector();
+            await DialogHost.Show(dlg);
+            txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
+        }
+
+        private void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.CalcR();
         }
     }
 }

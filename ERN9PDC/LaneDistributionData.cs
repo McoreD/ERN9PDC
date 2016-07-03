@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ERN9PDC
 {
-    public class LaneDistribution
+    public class LaneDistributionData
     {
         public string Location { get; set; }
-        public int NumLanes { get; set; }
-        public int d { get; set; }
+        public uint Lanes { get; set; }
+        public uint DistributionFactor { get; set; }
     }
 }

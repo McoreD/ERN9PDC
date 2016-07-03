@@ -63,7 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="LaneDistributionSelector.xaml">
+    <Page Include="AxleEquivalencyFactorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LaneDistributionFactorSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -75,10 +79,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Enums.cs" />
-    <Compile Include="LaneDistribution.cs" />
-    <Compile Include="LaneDistributionSelector.xaml.cs">
-      <DependentUpon>LaneDistributionSelector.xaml</DependentUpon>
+    <Compile Include="AxleEquivalencyFactorData.cs" />
+    <Compile Include="AxleEquivalencyFactorSelector.xaml.cs">
+      <DependentUpon>AxleEquivalencyFactorSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CalcHelper.cs" />
+    <Compile Include="LaneDistributionData.cs" />
+    <Compile Include="LaneDistributionFactorSelector.xaml.cs">
+      <DependentUpon>LaneDistributionFactorSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
