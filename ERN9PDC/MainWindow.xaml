@@ -18,7 +18,7 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">Input subgrade design CBR (%)</TextBlock>
-                        <ComboBox x:Name="cboSubgradeCBR" MinWidth="100" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                        <ComboBox x:Name="cboSubgradeCBR" MinWidth="100" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="cboSubgradeCBR_SelectionChanged"></ComboBox>
                     </StackPanel>
                 </StackPanel>
             </md:Card>
@@ -51,25 +51,30 @@
                             <TextBox Grid.Row="1" Grid.Column="1" md:TextFieldAssist.Hint="6.8" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
-                            <TextBox Grid.Row="2" Grid.Column="1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                            <Button  Grid.Row="2" Grid.Column="2" Margin="5" ToolTip="Two traffic growth rates">...</Button>
+                            <TextBox x:Name="txtr_HeavyTrafficGrowtRate" Grid.Row="2" Grid.Column="1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtr_HeavyTrafficGrowtRate_TextChanged" />
+                            <Button  Grid.Row="2" Grid.Column="2" Margin="5" ToolTip="Two traffic growth rates" IsTabStop="False">...</Button>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
                             <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtLaneDistributionFactor" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                            <Button  Grid.Row="3" Grid.Column="2" Margin="5" ToolTip="Select d" Click="btnLaneDistributionFactor_Click">...</Button>
+                            <Button  Grid.Row="3" Grid.Column="2" Margin="5" ToolTip="Select d" Click="btnLaneDistributionFactor_Click" IsTabStop="False">...</Button>
 
                             <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Number of ESA per heavy vehicle, F</TextBlock>
-                            <TextBox x:Name="txtAxleEquivalencyFactor" Grid.Row="4" Grid.Column="1" md:TextFieldAssist.Hint="2.86" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                            <Button x:Name="btnAxleEquivalencyFactor"  Grid.Row="4" Grid.Column="2" Margin="5" ToolTip="Select F" Click="btnAxleEquivalencyFactor_Click">...</Button>
+                            <TextBox Grid.Row="4" Grid.Column="1" x:Name="txtAxleEquivalencyFactor" md:TextFieldAssist.Hint="2.86" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtAxleEquivalencyFactor_TextChanged" />
+                            <Button Grid.Row="4" Grid.Column="2" x:Name="btnAxleEquivalencyFactor" Margin="5" ToolTip="Select F" Click="btnAxleEquivalencyFactor_Click" IsTabStop="False">...</Button>
 
                             <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Pavement design life, P (years)</TextBlock>
-                            <TextBox Grid.Row="5" Grid.Column="1" md:TextFieldAssist.Hint="40" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                            <TextBox Grid.Row="5" Grid.Column="1" x:Name="txtP_PavementDesignLife" md:TextFieldAssist.Hint="40" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtP_TextChanged" />
 
                             <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Cumulative growth factor, R</TextBlock>
-                            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Source={x:Static local:CalcHelper.R_CumulativeGrowthFactor}, Mode=OneWay}" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" IsReadOnly="True" />
+                            <TextBox Grid.Row="6" Grid.Column="1" x:Name="txtR_CumulativeGrowthFactor" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" IsReadOnly="True" />
 
                             <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Calculated design traffic (ESA)</TextBlock>
-                            <TextBox Grid.Row="7" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                            <TextBox x:Name="txtESA_DesignTraffic" Grid.Row="7" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtESA_DesignTraffic_TextChanged" />
+                            <Button Grid.Row="7" Grid.Column="2" x:Name="btnCalcESA" Margin="5" ToolTip="Calculate design ESA" Click="btnCalcESA_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="Calculator" />
+                                </StackPanel>
+                            </Button>
                         </Grid>
                     </StackPanel>
                 </TabItem>
@@ -93,18 +98,23 @@
                 <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Rounded to</TextBlock>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Minimum thickness of all granular material (mm)</TextBlock>
-                <TextBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
-                <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+                <TextBox  Grid.Row="1" Grid.Column="1" x:Name="txtThicknessGranular" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+                <TextBox Grid.Row="1" Grid.Column="2" x:Name="txtThicknessGranularRounded" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Minimum thickness of basecourse material (mm)</TextBlock>
-                <TextBox Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
-                <TextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtThicknessBasecourse" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
+                <TextBox Grid.Row="2" Grid.Column="2" x:Name="txtThicknessBasecourseRounded" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
             </Grid>
 
             <md:Card>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Button x:Name="btnSave">Save results</Button>
+                        <Button x:Name="btnSave">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Floppy" />
+                                <TextBlock Text="Save results" Margin="5 0 0 0" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </md:Card>

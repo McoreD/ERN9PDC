@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,54 @@ namespace ERN9PDC
 
         private void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.CalcR();
+            CalcHelper.SetAADT(txtAADT.Text);
+
+            UpdateGuiControls();
+        }
+
+        private void txtP_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetPavmentDesignLife(txtP_PavementDesignLife.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtr_HeavyTrafficGrowtRate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetHeavyVehiclePercentage(txtr_HeavyTrafficGrowtRate.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtESA_DesignTraffic_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetESA(txtESA_DesignTraffic.Text);
+            UpdateGuiControls();
+        }
+
+        private void btnCalcESA_Click(object sender, RoutedEventArgs e)
+        {
+            txtESA_DesignTraffic.Text = CalcHelper.GetESA().ToString("G3", CultureInfo.InvariantCulture);
+            UpdateGuiControls();
+        }
+
+        private void txtAxleEquivalencyFactor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactor(txtAxleEquivalencyFactor.Text);
+        }
+
+        private void UpdateGuiControls()
+        {
+            txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
+            txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
+            txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
+            txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
+            txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
+        }
+
+        private void cboSubgradeCBR_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            uint cbr = 12;
+            uint.TryParse(cboSubgradeCBR.SelectedValue.ToString(), out cbr);
+            CalcHelper.SetCbrSubgrade(cbr);
         }
     }
 }
