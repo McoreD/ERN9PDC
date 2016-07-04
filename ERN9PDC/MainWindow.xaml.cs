@@ -25,7 +25,12 @@ namespace ERN9PDC
         public MainWindow()
         {
             InitializeComponent();
-            cboSubgradeCBR.ItemsSource = Enumerable.Range(1, 30);
+            sliderSubgradeCBR.Value = 12;
+        }
+
+        private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            CalcHelper.SetCbrSubgrade((uint)sliderSubgradeCBR.Value);
         }
 
         private async void btnLaneDistributionFactor_Click(object sender, RoutedEventArgs e)
@@ -85,13 +90,6 @@ namespace ERN9PDC
             txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
             txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
             txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
-        }
-
-        private void cboSubgradeCBR_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            uint cbr = 12;
-            uint.TryParse(cboSubgradeCBR.SelectedValue.ToString(), out cbr);
-            CalcHelper.SetCbrSubgrade(cbr);
         }
     }
 }

@@ -14,14 +14,17 @@
     <md:DialogHost>
         <StackPanel Orientation="Vertical" Margin="10">
             <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="California bearing ratio (CBR)" Margin="5" />
-            <md:Card>
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">Input subgrade design CBR (%)</TextBlock>
-                        <ComboBox x:Name="cboSubgradeCBR" MinWidth="100" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="cboSubgradeCBR_SelectionChanged"></ComboBox>
-                    </StackPanel>
-                </StackPanel>
-            </md:Card>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">Input subgrade design CBR (%)</TextBlock>
+                <Slider x:Name="sliderSubgradeCBR" Grid.Row="0" Grid.Column="1" LargeChange="4" Maximum="30" Minimum="12" SmallChange="1" TickFrequency="0" DockPanel.Dock="Right" AutoToolTipPlacement="BottomRight" ValueChanged="sliderSubgradeCBR_ValueChanged" />
+            </Grid>
             <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Traffic data" Margin="5" />
             <TabControl x:Name="tpTrafficMethod2">
                 <TabItem Header="Method 2">
@@ -106,18 +109,14 @@
                 <TextBox Grid.Row="2" Grid.Column="2" x:Name="txtThicknessBasecourseRounded" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" MinWidth="100" IsReadOnly="True" />
             </Grid>
 
-            <md:Card>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Button x:Name="btnSave">
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Floppy" />
-                                <TextBlock Text="Save results" Margin="5 0 0 0" />
-                            </StackPanel>
-                        </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                <Button x:Name="btnSave">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Floppy" />
+                        <TextBlock Text="Save results" Margin="5 0 0 0" />
                     </StackPanel>
-                </StackPanel>
-            </md:Card>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </md:DialogHost>
 </Window>

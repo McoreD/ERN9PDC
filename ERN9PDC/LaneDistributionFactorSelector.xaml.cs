@@ -44,5 +44,10 @@ namespace ERN9PDC
         {
             CalcHelper.SetLaneDistributionFactor(((LaneDistributionData)lvFactors.SelectedItem).DistributionFactor);
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            btnOk.Command = DialogHost.CloseDialogCommand;
+        }
     }
 }

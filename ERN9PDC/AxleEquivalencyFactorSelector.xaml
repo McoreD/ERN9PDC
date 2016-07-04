@@ -26,7 +26,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="btnOk" Margin="10" Click="btnOk_Click">OK</Button>
             <Button x:Name="btnCancel" Margin="10" Click="btnCancel_Click">Cancel</Button>
         </StackPanel>
