@@ -9,13 +9,13 @@ namespace ERN9PDC
     public class AxleEquivalencyFactorData1
     {
         public string Location { get; set; }
-        public double F03 { get; set; }
-        public double F04 { get; set; }
-        public double F05 { get; set; }
-        public double F06 { get; set; }
-        public double F07 { get; set; }
-        public double F08 { get; set; }
-        public double F09 { get; set; }
+        public double F3 { get; set; }
+        public double F4 { get; set; }
+        public double F5 { get; set; }
+        public double F6 { get; set; }
+        public double F7 { get; set; }
+        public double F8 { get; set; }
+        public double F9 { get; set; }
         public double F10 { get; set; }
         public double F11 { get; set; }
         public double F12 { get; set; }

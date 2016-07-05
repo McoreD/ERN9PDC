@@ -13,7 +13,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Location"  Width="350" DisplayMemberBinding="{Binding Location}" ></GridViewColumn>
-                    <GridViewColumn Header="Axle Equivalency Factor, F" DisplayMemberBinding="{Binding AxleEquivalencyFactor}"></GridViewColumn>
+                    <GridViewColumn Header="Axle Equivalency Factor, F" DisplayMemberBinding="{Binding F}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -22,7 +22,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Location" Width="350" DisplayMemberBinding="{Binding Location}" ></GridViewColumn>
-                    <GridViewColumn Header="Axle Equivalency Factor, F"  DisplayMemberBinding="{Binding AxleEquivalencyFactor}"></GridViewColumn>
+                    <GridViewColumn Header="Axle Equivalency Factor, F"  DisplayMemberBinding="{Binding F}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

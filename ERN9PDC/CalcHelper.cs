@@ -21,6 +21,8 @@ namespace ERN9PDC
         public static double R_CumulativeGrowthFactor { get; private set; }
         public static double ESA_DesignTraffic { get; private set; }
 
+        public static AxleEquivalencyFactorData2 F_AxleEquivalencyFactors { get; private set; }
+
         private static uint TryParseUint(string txt)
         {
             uint n = 0;

@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="ERN9PDC.AxleEquivalencyFactorsSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ERN9PDC"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Orientation="Vertical" Margin="5">
+        <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Select Axle Equivalency Factors, F3 to F12" Margin="5" />
+        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Axle Equivalency Factors by Vehicle Class for General Use" Margin="5" />
+        <ListView Margin="10" Name="lvFactorsGeneral" SelectionMode="Single" SelectionChanged="lvFactorsGeneral_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Location"  Width="350" DisplayMemberBinding="{Binding Location}" ></GridViewColumn>
+                    <GridViewColumn Header="F3" DisplayMemberBinding="{Binding F3}"></GridViewColumn>
+                    <GridViewColumn Header="F4" DisplayMemberBinding="{Binding F4}"></GridViewColumn>
+                    <GridViewColumn Header="F5" DisplayMemberBinding="{Binding F5}"></GridViewColumn>
+                    <GridViewColumn Header="F6" DisplayMemberBinding="{Binding F6}"></GridViewColumn>
+                    <GridViewColumn Header="F7" DisplayMemberBinding="{Binding F7}"></GridViewColumn>
+                    <GridViewColumn Header="F8" DisplayMemberBinding="{Binding F8}"></GridViewColumn>
+                    <GridViewColumn Header="F9" DisplayMemberBinding="{Binding F9}"></GridViewColumn>
+                    <GridViewColumn Header="F10" DisplayMemberBinding="{Binding F10}"></GridViewColumn>
+                    <GridViewColumn Header="F11" DisplayMemberBinding="{Binding F11}"></GridViewColumn>
+                    <GridViewColumn Header="F12" DisplayMemberBinding="{Binding F12}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Axle Equivalency Factors by Vehicle Class at culway sites in WA for Specific Use" Margin="5" />
+        <ListView Margin="10" Name="lvFactorsSpecific" SelectionMode="Single" SelectionChanged="lvFactorsSpecific_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Location" Width="350" DisplayMemberBinding="{Binding Location}" ></GridViewColumn>
+                    <GridViewColumn Header="F3" DisplayMemberBinding="{Binding F3}"></GridViewColumn>
+                    <GridViewColumn Header="F4" DisplayMemberBinding="{Binding F4}"></GridViewColumn>
+                    <GridViewColumn Header="F5" DisplayMemberBinding="{Binding F5}"></GridViewColumn>
+                    <GridViewColumn Header="F6" DisplayMemberBinding="{Binding F6}"></GridViewColumn>
+                    <GridViewColumn Header="F7" DisplayMemberBinding="{Binding F7}"></GridViewColumn>
+                    <GridViewColumn Header="F8" DisplayMemberBinding="{Binding F8}"></GridViewColumn>
+                    <GridViewColumn Header="F9" DisplayMemberBinding="{Binding F9}"></GridViewColumn>
+                    <GridViewColumn Header="F10" DisplayMemberBinding="{Binding F10}"></GridViewColumn>
+                    <GridViewColumn Header="F11" DisplayMemberBinding="{Binding F11}"></GridViewColumn>
+                    <GridViewColumn Header="F12" DisplayMemberBinding="{Binding F12}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnOk" Margin="10" Click="btnOk_Click">OK</Button>
+            <Button x:Name="btnCancel" Margin="10" Click="btnCancel_Click">Cancel</Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -28,7 +28,6 @@ namespace ERN9PDC
         {
             InitializeComponent();
             sliderSubgradeCBR.Value = 12;
-            dgTrafficData.ItemsSource = TrafficData.GetTrafficDataMethod1();
         }
 
         private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -46,7 +45,7 @@ namespace ERN9PDC
 
         private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)
         {
-            AxleEquivalencyFactorSelector dlg = new AxleEquivalencyFactorSelector();
+            var dlg = new AxleEquivalencyFactorSelector();
             await DialogHost.Show(dlg);
             txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
         }
@@ -104,9 +103,10 @@ namespace ERN9PDC
             IsGuiReady = true;
         }
 
-        private void tcTrafficMethods_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void btnAxleEquivalencyFactors_Click(object sender, RoutedEventArgs e)
         {
-            CalcHelper.TrafficMethod = (TrafficMethod)tcTrafficMethods.SelectedIndex;
+            var dlg = new AxleEquivalencyFactorsSelector();
+            await DialogHost.Show(dlg);
         }
     }
 }

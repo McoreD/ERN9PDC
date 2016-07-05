@@ -63,9 +63,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AxleEquivalencyFactorsSelector.xaml.cs">
+      <DependentUpon>AxleEquivalencyFactorsSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums.cs" />
-    <Compile Include="TrafficData.cs" />
     <Page Include="AxleEquivalencyFactorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AxleEquivalencyFactorsSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
