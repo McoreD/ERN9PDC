@@ -8,6 +8,8 @@ namespace ERN9PDC
 {
     public static class CalcHelper
     {
+        public static TrafficMethod TrafficMethod { get; set; } = TrafficMethod.TrafficMethod2;
+
         public static uint CBR_Subgrade { get; private set; } = 12;
         public static uint CBR_Basecourse { get; private set; } = 30;
         public static uint n_AADT { get; private set; } = 1000;

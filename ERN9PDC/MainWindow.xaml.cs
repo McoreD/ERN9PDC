@@ -22,15 +22,19 @@ namespace ERN9PDC
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool IsGuiReady = false;
+
         public MainWindow()
         {
             InitializeComponent();
             sliderSubgradeCBR.Value = 12;
+            dgTrafficData.ItemsSource = TrafficData.GetTrafficDataMethod1();
         }
 
         private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             CalcHelper.SetCbrSubgrade((uint)sliderSubgradeCBR.Value);
+            UpdateGuiControls();
         }
 
         private async void btnLaneDistributionFactor_Click(object sender, RoutedEventArgs e)
@@ -85,11 +89,24 @@ namespace ERN9PDC
 
         private void UpdateGuiControls()
         {
-            txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
-            txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
-            txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
-            txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
-            txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
+            if (IsGuiReady)
+            {
+                txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
+                txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
+                txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
+                txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
+                txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsGuiReady = true;
+        }
+
+        private void tcTrafficMethods_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CalcHelper.TrafficMethod = (TrafficMethod)tcTrafficMethods.SelectedIndex;
         }
     }
 }

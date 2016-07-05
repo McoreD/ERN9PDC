@@ -10,7 +10,7 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" WindowStartupLocation="CenterScreen"
-        MinWidth="640" Width="640" Height="640" SizeToContent="WidthAndHeight">
+        MinWidth="640" Width="640" Height="640" SizeToContent="WidthAndHeight" Loaded="Window_Loaded">
     <md:DialogHost>
         <StackPanel Orientation="Vertical" Margin="10">
             <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="California bearing ratio (CBR)" Margin="5" />
@@ -25,65 +25,96 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center">Input subgrade design CBR (%)</TextBlock>
                 <Slider x:Name="sliderSubgradeCBR" Grid.Row="0" Grid.Column="1" LargeChange="4" Maximum="30" Minimum="12" SmallChange="1" TickFrequency="0" DockPanel.Dock="Right" AutoToolTipPlacement="BottomRight" ValueChanged="sliderSubgradeCBR_ValueChanged" />
             </Grid>
+
             <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Traffic data" Margin="5" />
-            <TabControl x:Name="tpTrafficMethod2">
-                <TabItem Header="Method 2">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Initial number of vehicles daily in one direction (1-way AADT), n</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtAADT" md:TextFieldAssist.Hint="2000" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtAADT_TextChanged" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtr_HeavyTrafficGrowtRate" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtr_HeavyTrafficGrowtRate_TextChanged" />
+                <Button  Grid.Row="1" Grid.Column="2" Margin="5" ToolTip="Two traffic growth rates" IsTabStop="False">...</Button>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtLaneDistributionFactor" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                <Button  Grid.Row="2" Grid.Column="2" Margin="5" ToolTip="Select d" Click="btnLaneDistributionFactor_Click" IsTabStop="False">...</Button>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="rbTrafficMethod2" Margin="0,0,10,0" IsChecked="True">Traffic data in terms of proportion of heavy vehicles</RadioButton>
+                <RadioButton x:Name="rbTrafficMethod1">Traffic data in terms of the heavy vehicles by class</RadioButton>
+            </StackPanel>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles, c (%)</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" md:TextFieldAssist.Hint="6.8" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Number of ESA per heavy vehicle, F</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtAxleEquivalencyFactor" md:TextFieldAssist.Hint="2.86" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtAxleEquivalencyFactor_TextChanged" />
+                <Button Grid.Row="1" Grid.Column="2" x:Name="btnAxleEquivalencyFactor" Margin="5" ToolTip="Select F" Click="btnAxleEquivalencyFactor_Click" IsTabStop="False">...</Button>
+            </Grid>
+
+            <TabControl x:Name="tcTrafficMethods" SelectionChanged="tcTrafficMethods_SelectionChanged">
+
+                <TabItem Header="Method 1">
                     <StackPanel Orientation="Vertical" Margin="5">
-                        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Traffic Method 2: Traffic data in terms of proportion of heavy vehicles" />
-                        <Grid Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Initial number of vehicles daily in one direction (1-way AADT), n</TextBlock>
-                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtAADT" md:TextFieldAssist.Hint="2000" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtAADT_TextChanged" />
-
-                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles, c (%)</TextBlock>
-                            <TextBox Grid.Row="1" Grid.Column="1" md:TextFieldAssist.Hint="6.8" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-
-                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
-                            <TextBox x:Name="txtr_HeavyTrafficGrowtRate" Grid.Row="2" Grid.Column="1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtr_HeavyTrafficGrowtRate_TextChanged" />
-                            <Button  Grid.Row="2" Grid.Column="2" Margin="5" ToolTip="Two traffic growth rates" IsTabStop="False">...</Button>
-
-                            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
-                            <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtLaneDistributionFactor" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
-                            <Button  Grid.Row="3" Grid.Column="2" Margin="5" ToolTip="Select d" Click="btnLaneDistributionFactor_Click" IsTabStop="False">...</Button>
-
-                            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Number of ESA per heavy vehicle, F</TextBlock>
-                            <TextBox Grid.Row="4" Grid.Column="1" x:Name="txtAxleEquivalencyFactor" md:TextFieldAssist.Hint="2.86" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtAxleEquivalencyFactor_TextChanged" />
-                            <Button Grid.Row="4" Grid.Column="2" x:Name="btnAxleEquivalencyFactor" Margin="5" ToolTip="Select F" Click="btnAxleEquivalencyFactor_Click" IsTabStop="False">...</Button>
-
-                            <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Pavement design life, P (years)</TextBlock>
-                            <TextBox Grid.Row="5" Grid.Column="1" x:Name="txtP_PavementDesignLife" md:TextFieldAssist.Hint="40" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtP_TextChanged" />
-
-                            <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Cumulative growth factor, R</TextBlock>
-                            <TextBox Grid.Row="6" Grid.Column="1" x:Name="txtR_CumulativeGrowthFactor" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" IsReadOnly="True" />
-
-                            <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Calculated design traffic (ESA)</TextBlock>
-                            <TextBox x:Name="txtESA_DesignTraffic" Grid.Row="7" Grid.Column="1" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtESA_DesignTraffic_TextChanged" />
-                            <Button Grid.Row="7" Grid.Column="2" x:Name="btnCalcESA" Margin="5" ToolTip="Calculate design ESA" Click="btnCalcESA_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="Calculator" />
-                                </StackPanel>
-                            </Button>
-                        </Grid>
+                        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Traffic data in terms of the heavy vehicles by class" />
+                        <DataGrid x:Name="dgTrafficData" AlternatingRowBackground="LightBlue"
+                              CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                              CanUserSortColumns="False">
+                        </DataGrid>
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="Method 1">
-                </TabItem>
             </TabControl>
+
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Pavement design life, P (years)</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtP_PavementDesignLife" md:TextFieldAssist.Hint="40" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtP_TextChanged" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Cumulative growth factor, R</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtR_CumulativeGrowthFactor" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" IsReadOnly="True" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Calculated design traffic (ESA)</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtESA_DesignTraffic" md:TextFieldAssist.Hint="" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtESA_DesignTraffic_TextChanged" />
+                <Button Grid.Row="2" Grid.Column="2" x:Name="btnCalcESA" Margin="5" ToolTip="Calculate design ESA" Click="btnCalcESA_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Calculator" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
             <TextBlock Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="Granular pavement thickness" Margin="5" />
             <Grid Margin="5">
                 <Grid.RowDefinitions>
