@@ -41,6 +41,7 @@ namespace ERN9PDC
 
             if (CalcHelper.P_PavementDesignLife > 0)
             {
+                spGrowthRate1.Visibility = Visibility.Visible;
                 sliderQ_PavementDesignLife.Value = sliderQ_PavementDesignLife.Maximum = CalcHelper.P_PavementDesignLife;
             }
 

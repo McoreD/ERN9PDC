@@ -50,8 +50,10 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" x:Name="tbr1" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
                 <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                     <TextBox x:Name="txtHVGrowthRate_r1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0" HorizontalContentAlignment="Right" TextChanged="txtHVGrowthRate_r1_TextChanged" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0">for</TextBlock>
-                    <Slider x:Name="sliderQ_PavementDesignLife"  LargeChange="5" Maximum="100" SmallChange="1" DockPanel.Dock="Right" AutoToolTipPlacement="BottomRight" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="100" Margin="0,0,5,0" ValueChanged="sliderQ_PavementDesignLife_ValueChanged" />
+                    <StackPanel x:Name="spGrowthRate1" Orientation="Horizontal" Visibility="Hidden">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0">for</TextBlock>
+                        <Slider x:Name="sliderQ_PavementDesignLife"  LargeChange="5" Maximum="100" SmallChange="1" DockPanel.Dock="Right" AutoToolTipPlacement="BottomRight" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="100" Margin="0,0,5,0" ValueChanged="sliderQ_PavementDesignLife_ValueChanged" />
+                    </StackPanel>
                     <StackPanel x:Name="spGrowthRate2" Orientation="Horizontal" Visibility="Collapsed">
                         <TextBox x:Name="txtQ_PavementLife" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"></TextBox>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0">years and r2 (%)</TextBlock>
