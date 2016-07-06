@@ -14,7 +14,8 @@ namespace ERN9PDC
         public static uint CBR_Basecourse { get; private set; } = 30;
         public static uint n_AADT { get; private set; } = 1000;
         public static double c_HeavyVehiclesPerc { get; private set; } = 6.8;
-        public static double r_HeavyTrafficGrowtRate { get; private set; } = 0.03;
+        public static double r1_HVGrowthRate { get; private set; } = 0.03;
+        public static double r2_HVGrowthRate { get; private set; }
         public static uint d_LaneDistributionFactor { get; private set; } = 100;
         public static double F_AxleEquivalencyFactor { get; private set; }
         public static uint P_PavementDesignLife { get; private set; } = 40;
@@ -22,8 +23,9 @@ namespace ERN9PDC
         public static double ESA_DesignTraffic { get; private set; }
 
         public static AxleEquivalencyFactorData1 F_AxleEquivalencyFactors { get; private set; }
-
         private static double[,] cF = new double[10, 2]; // 10 pairs array
+
+        public static uint Q_PavementDesignLifeFor_r1 { get; set; }
 
         private static uint TryParseUint(string txt)
         {
@@ -78,7 +80,7 @@ namespace ERN9PDC
             }
         }
 
-        public static double SetHeavyVehiclePercentage()
+        public static double SetHVGrowthRate_r1()
         {
             double perc = 0.0;
 
@@ -92,14 +94,21 @@ namespace ERN9PDC
 
         public static double GetAECperHV()
         {
-            return GetCF() / SetHeavyVehiclePercentage();
+            return GetCF() / SetHVGrowthRate_r1();
         }
 
-        public static void SetHeavyVehiclePercentage(string txt)
+        public static void SetHVGrowthRate_r1(string txt)
         {
             double r = TryParseDouble(txt);
             if (r >= 1) r = r / 100.0;
-            r_HeavyTrafficGrowtRate = r;
+            r1_HVGrowthRate = r;
+        }
+
+        public static void SetHVGrowthRate_r2(string txt)
+        {
+            double r = TryParseDouble(txt);
+            if (r >= 1) r = r / 100.0;
+            r2_HVGrowthRate = r;
         }
 
         public static void SetPavmentDesignLife(string txt)
@@ -114,7 +123,21 @@ namespace ERN9PDC
 
         public static double GetR()
         {
-            return R_CumulativeGrowthFactor = r_HeavyTrafficGrowtRate > 0 ? (Math.Pow(1 + r_HeavyTrafficGrowtRate, P_PavementDesignLife) - 1) / r_HeavyTrafficGrowtRate : 0;
+            if ((P_PavementDesignLife - Q_PavementDesignLifeFor_r1) > 0)
+            {
+                return R_CumulativeGrowthFactor = CalcR(r1_HVGrowthRate, Q_PavementDesignLifeFor_r1) +
+                    Math.Pow(1 + r1_HVGrowthRate, Q_PavementDesignLifeFor_r1 - 1) * (1 + r2_HVGrowthRate) *
+                    CalcR(r2_HVGrowthRate, P_PavementDesignLife - Q_PavementDesignLifeFor_r1);
+            }
+            else
+            {
+                return R_CumulativeGrowthFactor = r1_HVGrowthRate > 0 ? CalcR(r1_HVGrowthRate, P_PavementDesignLife) : 0;
+            }
+        }
+
+        private static double CalcR(double r, uint P)
+        {
+            return (Math.Pow(1 + r, P) - 1) / r;
         }
 
         private static double GetCF()

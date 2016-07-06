@@ -83,12 +83,18 @@ namespace ERN9PDC
         private void txtP_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalcHelper.SetPavmentDesignLife(txtP_PavementDesignLife.Text);
+
+            if (CalcHelper.P_PavementDesignLife > 0)
+            {
+                sliderQ_PavementDesignLife.Value = sliderQ_PavementDesignLife.Maximum = CalcHelper.P_PavementDesignLife;
+            }
+
             UpdateGuiControls();
         }
 
-        private void txtr_HeavyTrafficGrowtRate_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtHVGrowthRate_r1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetHeavyVehiclePercentage(txtr_HeavyTrafficGrowtRate.Text);
+            CalcHelper.SetHVGrowthRate_r1(txtHVGrowthRate_r1.Text);
             UpdateGuiControls();
         }
 
@@ -117,11 +123,11 @@ namespace ERN9PDC
 
                 if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod1)
                 {
-                    txtHVperc.Text = CalcHelper.SetHeavyVehiclePercentage().ToString("0.00");
+                    txtHVperc.Text = CalcHelper.SetHVGrowthRate_r1().ToString("0.00");
                     txtAxleEquivalencyFactor.Text = CalcHelper.GetAECperHV().ToString("0.00");
                 }
 
-                if (CalcHelper.SetHeavyVehiclePercentage() > 100.0) // causes dialog is already open sometimes
+                if (CalcHelper.SetHVGrowthRate_r1() > 100.0) // causes dialog is already open sometimes
                 {
                     var dlg = new CustomMessageBox("Total percentage of heavy vehicles is over 100%.");
                     await DialogHost.Show(dlg);
@@ -244,6 +250,33 @@ namespace ERN9PDC
             }
 
             CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod1;
+        }
+
+        private void sliderGrowthRate1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            CalcHelper.Q_PavementDesignLifeFor_r1 = (uint)sliderQ_PavementDesignLife.Value;
+
+            txtQ_PavementLife.Text = sliderQ_PavementDesignLife.Value.ToString("0");
+            txtPavementLifeRemaining.Text = (CalcHelper.P_PavementDesignLife - sliderQ_PavementDesignLife.Value).ToString("0");
+
+            if (sliderQ_PavementDesignLife.Value == sliderQ_PavementDesignLife.Maximum)
+            {
+                tbr1.Text = "Annual heavy vehicle growth rate, r (%)";
+                spGrowthRate2.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                tbr1.Text = "Annual heavy vehicle growth rates, r1 (%)";
+                spGrowthRate2.Visibility = Visibility.Visible;
+            }
+
+            UpdateGuiControls();
+        }
+
+        private void txtr2_HeavyTrafficGrowthRate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetHVGrowthRate_r2(txtHVGrowthRate_r2.Text);
+            UpdateGuiControls();
         }
     }
 }
