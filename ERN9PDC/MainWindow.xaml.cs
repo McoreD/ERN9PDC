@@ -29,6 +29,8 @@ namespace ERN9PDC
         {
             InitializeComponent();
             sliderSubgradeCBR.Value = 12;
+            gridC.Visibility = Visibility.Collapsed;
+            gridF.Visibility = Visibility.Collapsed;
         }
 
         private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -46,9 +48,29 @@ namespace ERN9PDC
 
         private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new AxleEquivalencyFactorSelector();
-            await DialogHost.Show(dlg);
-            txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
+            if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod2)
+            {
+                var dlg = new AxleEquivalencyFactorSelector();
+                await DialogHost.Show(dlg);
+
+                txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
+            }
+            else
+            {
+                var dlg = new AxleEquivalencyFactorsSelector();
+                await DialogHost.Show(dlg);
+
+                txtF3.Text = CalcHelper.F_AxleEquivalencyFactors.F3.ToString();
+                txtF4.Text = CalcHelper.F_AxleEquivalencyFactors.F4.ToString();
+                txtF5.Text = CalcHelper.F_AxleEquivalencyFactors.F5.ToString();
+                txtF6.Text = CalcHelper.F_AxleEquivalencyFactors.F6.ToString();
+                txtF7.Text = CalcHelper.F_AxleEquivalencyFactors.F7.ToString();
+                txtF8.Text = CalcHelper.F_AxleEquivalencyFactors.F8.ToString();
+                txtF9.Text = CalcHelper.F_AxleEquivalencyFactors.F9.ToString();
+                txtF10.Text = CalcHelper.F_AxleEquivalencyFactors.F10.ToString();
+                txtF11.Text = CalcHelper.F_AxleEquivalencyFactors.F11.ToString();
+                txtF12.Text = CalcHelper.F_AxleEquivalencyFactors.F12.ToString();
+            }
         }
 
         private void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
@@ -93,8 +115,11 @@ namespace ERN9PDC
             {
                 txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
 
-                tbHVPerc.Text = CalcHelper.SetHeavyVehiclePercentage().ToString("0.00");
-                tbF.Text = CalcHelper.GetAECperHV().ToString("0.00");
+                if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod1)
+                {
+                    txtHVperc.Text = CalcHelper.SetHeavyVehiclePercentage().ToString("0.00");
+                    txtAxleEquivalencyFactor.Text = CalcHelper.GetAECperHV().ToString("0.00");
+                }
 
                 if (CalcHelper.SetHeavyVehiclePercentage() > 100.0) // causes dialog is already open sometimes
                 {
@@ -116,27 +141,7 @@ namespace ERN9PDC
             IsGuiReady = true;
         }
 
-        private async void btnAxleEquivalencyFactors_Click(object sender, RoutedEventArgs e)
-        {
-            var dlg = new AxleEquivalencyFactorsSelector();
-            await DialogHost.Show(dlg);
-
-            txtF3.Text = CalcHelper.F_AxleEquivalencyFactors.F3.ToString();
-            txtF4.Text = CalcHelper.F_AxleEquivalencyFactors.F4.ToString();
-            txtF5.Text = CalcHelper.F_AxleEquivalencyFactors.F5.ToString();
-            txtF6.Text = CalcHelper.F_AxleEquivalencyFactors.F6.ToString();
-            txtF7.Text = CalcHelper.F_AxleEquivalencyFactors.F7.ToString();
-            txtF8.Text = CalcHelper.F_AxleEquivalencyFactors.F8.ToString();
-            txtF9.Text = CalcHelper.F_AxleEquivalencyFactors.F9.ToString();
-            txtF10.Text = CalcHelper.F_AxleEquivalencyFactors.F10.ToString();
-            txtF11.Text = CalcHelper.F_AxleEquivalencyFactors.F11.ToString();
-            txtF12.Text = CalcHelper.F_AxleEquivalencyFactors.F12.ToString();
-        }
-
-        private void tcTrafficMethods_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CalcHelper.TrafficMethod = (TrafficMethod)tcTrafficMethods.SelectedIndex;
-        }
+        #region Traffic Method 1 - Grid for c
 
         private void txtC3_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -198,6 +203,8 @@ namespace ERN9PDC
             UpdateGuiControls();
         }
 
+        #endregion Traffic Method 1 - Grid for c
+
         private void btnRandomC_Click(object sender, RoutedEventArgs e)
         {
             Random rnd = new Random();
@@ -213,6 +220,30 @@ namespace ERN9PDC
             txtC12.Text = (rnd.NextDouble() * 10).ToString("0.00");
 
             UpdateGuiControls();
+        }
+
+        private void rbTrafficMethod2_Checked(object sender, RoutedEventArgs e)
+        {
+            if (IsGuiReady)
+            {
+                gridC.Visibility = Visibility.Collapsed;
+                gridF.Visibility = Visibility.Collapsed;
+                btnRandomC.Visibility = Visibility.Hidden;
+            }
+
+            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod2;
+        }
+
+        private void rbTrafficMethod1_Checked(object sender, RoutedEventArgs e)
+        {
+            if (IsGuiReady)
+            {
+                gridC.Visibility = Visibility.Visible;
+                gridF.Visibility = Visibility.Visible;
+                btnRandomC.Visibility = Visibility.Visible;
+            }
+
+            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod1;
         }
     }
 }
