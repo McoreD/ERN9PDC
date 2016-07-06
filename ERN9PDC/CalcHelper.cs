@@ -21,7 +21,7 @@ namespace ERN9PDC
         public static double R_CumulativeGrowthFactor { get; private set; }
         public static double ESA_DesignTraffic { get; private set; }
 
-        public static AxleEquivalencyFactorData2 F_AxleEquivalencyFactors { get; private set; }
+        private static double[,] cF = new double[10, 2]; // 10 pairs array
 
         private static uint TryParseUint(string txt)
         {
@@ -62,6 +62,32 @@ namespace ERN9PDC
             F_AxleEquivalencyFactor = TryParseDouble(txt);
         }
 
+        public static void SetAxleEquivalencyFactors(int classValue, string c, string F)
+        {
+            if (classValue > 2)
+            {
+                cF[classValue - 3, 0] = TryParseDouble(c);
+                cF[classValue - 3, 1] = TryParseDouble(F);
+            }
+        }
+
+        public static double SetHeavyVehiclePercentage()
+        {
+            double perc = 0.0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                perc += cF[i, 0];
+            }
+
+            return perc;
+        }
+
+        public static double GetAECperHV()
+        {
+            return GetCF() / SetHeavyVehiclePercentage();
+        }
+
         public static void SetHeavyVehiclePercentage(string txt)
         {
             double r = TryParseDouble(txt);
@@ -84,9 +110,26 @@ namespace ERN9PDC
             return R_CumulativeGrowthFactor = r_HeavyTrafficGrowtRate > 0 ? (Math.Pow(1 + r_HeavyTrafficGrowtRate, P_PavementDesignLife) - 1) / r_HeavyTrafficGrowtRate : 0;
         }
 
+        private static double GetCF()
+        {
+            double cF = 0.0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                cF += CalcHelper.cF[i, 0] * CalcHelper.cF[i, 1];
+            }
+
+            return cF;
+        }
+
         public static double GetESA()
         {
-            return ESA_DesignTraffic = n_AADT * F_AxleEquivalencyFactor * (d_LaneDistributionFactor / 100.0) * (c_HeavyVehiclesPerc / 100.0) * R_CumulativeGrowthFactor * 365;
+            if (TrafficMethod == TrafficMethod.TrafficMethod2)
+                return ESA_DesignTraffic = 365 * n_AADT * d_LaneDistributionFactor * R_CumulativeGrowthFactor * c_HeavyVehiclesPerc * F_AxleEquivalencyFactor / 10000.0;
+            else
+            {
+                return ESA_DesignTraffic = 365 * n_AADT * d_LaneDistributionFactor * R_CumulativeGrowthFactor * GetCF() / 10000.0;
+            }
         }
 
         public static double GetThickness(uint cbr)

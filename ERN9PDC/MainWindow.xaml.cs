@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using HelpersLib;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -86,15 +87,27 @@ namespace ERN9PDC
             CalcHelper.SetAxleEquivalencyFactor(txtAxleEquivalencyFactor.Text);
         }
 
-        private void UpdateGuiControls()
+        private async void UpdateGuiControls()
         {
             if (IsGuiReady)
             {
                 txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
-                txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
-                txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
-                txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
-                txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
+
+                tbHVPerc.Text = CalcHelper.SetHeavyVehiclePercentage().ToString("0.00");
+                tbF.Text = CalcHelper.GetAECperHV().ToString("0.00");
+
+                if (CalcHelper.SetHeavyVehiclePercentage() > 100.0) // causes dialog is already open sometimes
+                {
+                    var dlg = new CustomMessageBox("Total percentage of heavy vehicles is over 100%.");
+                    await DialogHost.Show(dlg);
+                }
+                else
+                {
+                    txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
+                    txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
+                    txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
+                    txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
+                }
             }
         }
 
@@ -107,6 +120,71 @@ namespace ERN9PDC
         {
             var dlg = new AxleEquivalencyFactorsSelector();
             await DialogHost.Show(dlg);
+        }
+
+        private void tcTrafficMethods_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CalcHelper.TrafficMethod = (TrafficMethod)tcTrafficMethods.SelectedIndex;
+        }
+
+        private void txtC3_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(3, txtC3.Text, txtF3.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC4_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(4, txtC4.Text, txtF4.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC5_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(5, txtC5.Text, txtF5.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC6_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(6, txtC6.Text, txtF6.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC7_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(7, txtC7.Text, txtF7.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC8_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(8, txtC8.Text, txtF8.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC9_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(9, txtC9.Text, txtF9.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC10_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(10, txtC10.Text, txtF10.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC11_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(11, txtC11.Text, txtF11.Text);
+            UpdateGuiControls();
+        }
+
+        private void txtC12_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactors(12, txtC12.Text, txtF12.Text);
+            UpdateGuiControls();
         }
     }
 }
