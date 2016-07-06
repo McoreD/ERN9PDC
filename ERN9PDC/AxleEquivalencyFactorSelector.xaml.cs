@@ -51,10 +51,11 @@ namespace ERN9PDC
             lvFactorsSpecific.ItemsSource = itemsSpecific;
         }
 
-        private void btnOk_Click(object sender, RoutedEventArgs e)
+        private void lvFactorsGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CalcHelper.F_AxleEquivalencyFactor > 0)
-                btnOk.Command = DialogHost.CloseDialogCommand;
+            lvFactorsSpecific.SelectedIndex = -1;
+            if (lvFactorsGeneral.SelectedIndex > -1)
+                CalcHelper.SetAxleEquivalencyFactor(((AxleEquivalencyFactorData2)lvFactorsGeneral.SelectedItem).F);
         }
 
         private void lvFactorsSpecific_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,11 +65,10 @@ namespace ERN9PDC
                 CalcHelper.SetAxleEquivalencyFactor(((AxleEquivalencyFactorData2)lvFactorsSpecific.SelectedItem).F);
         }
 
-        private void lvFactorsGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            lvFactorsSpecific.SelectedIndex = -1;
-            if (lvFactorsGeneral.SelectedIndex > -1)
-                CalcHelper.SetAxleEquivalencyFactor(((AxleEquivalencyFactorData2)lvFactorsGeneral.SelectedItem).F);
+            if (CalcHelper.F_AxleEquivalencyFactor > 0)
+                btnOk.Command = DialogHost.CloseDialogCommand;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

@@ -10,22 +10,21 @@ namespace ERN9PDC
     {
         public static TrafficMethod TrafficMethod { get; set; } = TrafficMethod.TrafficMethod2;
 
+        public static uint P_PavementDesignLife { get; private set; } = 40;
         public static uint CBR_Subgrade { get; private set; } = 12;
         public static uint CBR_Basecourse { get; private set; } = 30;
         public static uint n_AADT { get; private set; } = 1000;
-        public static double c_HeavyVehiclesPerc { get; private set; } = 6.8;
+        public static double c_HVPerc { get; private set; } = 6.8;
         public static double r1_HVGrowthRate { get; private set; } = 0.03;
+        public static uint Q_PavementDesignLifeFor_r1 { get; set; }
         public static double r2_HVGrowthRate { get; private set; }
         public static uint d_LaneDistributionFactor { get; private set; } = 100;
         public static double F_AxleEquivalencyFactor { get; private set; }
-        public static uint P_PavementDesignLife { get; private set; } = 40;
+        private static double[,] TrafficData = new double[10, 2]; // [0,0] is Class 3, c; [0,1] is Class 3, F; [1,0] is Class 4, c etc.
         public static double R_CumulativeGrowthFactor { get; private set; }
         public static double ESA_DesignTraffic { get; private set; }
 
-        public static AxleEquivalencyFactorData1 F_AxleEquivalencyFactors { get; private set; }
-        private static double[,] cF = new double[10, 2]; // 10 pairs array
-
-        public static uint Q_PavementDesignLifeFor_r1 { get; set; }
+        #region Helper methods
 
         private static uint TryParseUint(string txt)
         {
@@ -41,6 +40,13 @@ namespace ERN9PDC
             return n;
         }
 
+        #endregion Helper methods
+
+        public static void SetPavementDesignLife(string txt)
+        {
+            P_PavementDesignLife = TryParseUint(txt);
+        }
+
         public static void SetCbrSubgrade(uint cbr)
         {
             CBR_Subgrade = cbr;
@@ -51,50 +57,18 @@ namespace ERN9PDC
             n_AADT = TryParseUint(txt);
         }
 
-        public static void SetLaneDistributionFactor(uint d)
-        {
-            d_LaneDistributionFactor = d;
-        }
+        #region r1 and r2
 
-        public static void SetAxleEquivalencyFactor(double F)
-        {
-            F_AxleEquivalencyFactor = F;
-        }
-
-        public static void SetAxleEquivalencyFactors(AxleEquivalencyFactorData1 f)
-        {
-            F_AxleEquivalencyFactors = f;
-        }
-
-        public static void SetAxleEquivalencyFactor(string txt)
-        {
-            F_AxleEquivalencyFactor = TryParseDouble(txt);
-        }
-
-        public static void SetAxleEquivalencyFactors(int classValue, string c, string F)
-        {
-            if (classValue > 2)
-            {
-                cF[classValue - 3, 0] = TryParseDouble(c);
-                cF[classValue - 3, 1] = TryParseDouble(F);
-            }
-        }
-
-        public static double SetHVGrowthRate_r1()
+        public static double GetHVGrowthRate_r1()
         {
             double perc = 0.0;
 
             for (int i = 0; i < 10; i++)
             {
-                perc += cF[i, 0];
+                perc += TrafficData[i, 0];
             }
 
             return perc;
-        }
-
-        public static double GetAECperHV()
-        {
-            return GetCF() / SetHVGrowthRate_r1();
         }
 
         public static void SetHVGrowthRate_r1(string txt)
@@ -111,15 +85,78 @@ namespace ERN9PDC
             r2_HVGrowthRate = r;
         }
 
-        public static void SetPavmentDesignLife(string txt)
+        #endregion r1 and r2
+
+        public static void SetLaneDistributionFactor(uint d)
         {
-            P_PavementDesignLife = TryParseUint(txt);
+            d_LaneDistributionFactor = d;
         }
 
-        public static void SetESA(string txt)
+        #region F and F3 to F12
+
+        public static void SetAxleEquivalencyFactor(double F)
         {
-            ESA_DesignTraffic = TryParseDouble(txt);
+            F_AxleEquivalencyFactor = F;
         }
+
+        public static void SetAxleEquivalencyFactor(string txt)
+        {
+            F_AxleEquivalencyFactor = TryParseDouble(txt);
+        }
+
+        public static void SetFbyVehicleClass(int classValue, double F)
+        {
+            if (classValue > 2)
+            {
+                TrafficData[classValue - 3, 1] = F;
+            }
+        }
+
+        public static double GetFbyVehicleClass(int classValue)
+        {
+            if (classValue > 2)
+            {
+                return TrafficData[classValue - 3, 1];
+            }
+
+            return 0;
+        }
+
+        #endregion F and F3 to F12
+
+        #region c3 to c12 and F3 to F12
+
+        public static void SetTrafficData(int classValue, string c, string F)
+        {
+            if (classValue > 2)
+            {
+                if (c != "")
+                    TrafficData[classValue - 3, 0] = TryParseDouble(c);
+                if (F != "")
+                    TrafficData[classValue - 3, 1] = TryParseDouble(F);
+            }
+        }
+
+        private static double GetCF()
+        {
+            double cF = 0.0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                cF += CalcHelper.TrafficData[i, 0] * CalcHelper.TrafficData[i, 1];
+            }
+
+            return cF;
+        }
+
+        public static double GetAECperHV()
+        {
+            return GetCF() / GetHVGrowthRate_r1();
+        }
+
+        #endregion c3 to c12 and F3 to F12
+
+        #region R
 
         public static double GetR()
         {
@@ -140,27 +177,28 @@ namespace ERN9PDC
             return (Math.Pow(1 + r, P) - 1) / r;
         }
 
-        private static double GetCF()
+        #endregion R
+
+        #region ESA
+
+        public static void SetESA(string txt)
         {
-            double cF = 0.0;
-
-            for (int i = 0; i < 10; i++)
-            {
-                cF += CalcHelper.cF[i, 0] * CalcHelper.cF[i, 1];
-            }
-
-            return cF;
+            ESA_DesignTraffic = TryParseDouble(txt);
         }
 
         public static double GetESA()
         {
             if (TrafficMethod == TrafficMethod.TrafficMethod2)
-                return ESA_DesignTraffic = 365 * n_AADT * d_LaneDistributionFactor * R_CumulativeGrowthFactor * c_HeavyVehiclesPerc * F_AxleEquivalencyFactor / 10000.0;
+                return ESA_DesignTraffic = 365 * n_AADT * d_LaneDistributionFactor * R_CumulativeGrowthFactor * c_HVPerc * F_AxleEquivalencyFactor / 10000.0;
             else
             {
                 return ESA_DesignTraffic = 365 * n_AADT * d_LaneDistributionFactor * R_CumulativeGrowthFactor * GetCF() / 10000.0;
             }
         }
+
+        #endregion ESA
+
+        #region Thickness
 
         public static double GetThickness(uint cbr)
         {
@@ -186,5 +224,7 @@ namespace ERN9PDC
         {
             return Math.Ceiling(GetThickness(CBR_Basecourse) / 5.0) * 5;
         }
+
+        #endregion Thickness
     }
 }

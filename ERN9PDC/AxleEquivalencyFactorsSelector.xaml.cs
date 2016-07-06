@@ -51,24 +51,38 @@ namespace ERN9PDC
             lvFactorsSpecific.ItemsSource = itemsSpecific;
         }
 
-        private void btnOk_Click(object sender, RoutedEventArgs e)
+        private void lvFactorsGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CalcHelper.F_AxleEquivalencyFactor > 0 || CalcHelper.F_AxleEquivalencyFactors != null)
-                btnOk.Command = DialogHost.CloseDialogCommand;
+            lvFactorsSpecific.SelectedIndex = -1;
+            if (lvFactorsGeneral.SelectedIndex > -1)
+                SetFbyVehicleClass((AxleEquivalencyFactorData1)lvFactorsGeneral.SelectedItem);
         }
 
         private void lvFactorsSpecific_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             lvFactorsGeneral.SelectedIndex = -1;
             if (lvFactorsSpecific.SelectedIndex > -1)
-                CalcHelper.SetAxleEquivalencyFactors(((AxleEquivalencyFactorData1)lvFactorsSpecific.SelectedItem));
+                SetFbyVehicleClass((AxleEquivalencyFactorData1)lvFactorsSpecific.SelectedItem);
         }
 
-        private void lvFactorsGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SetFbyVehicleClass(AxleEquivalencyFactorData1 data)
         {
-            lvFactorsSpecific.SelectedIndex = -1;
-            if (lvFactorsGeneral.SelectedIndex > -1)
-                CalcHelper.SetAxleEquivalencyFactors(((AxleEquivalencyFactorData1)lvFactorsGeneral.SelectedItem));
+            CalcHelper.SetFbyVehicleClass(3, data.F3);
+            CalcHelper.SetFbyVehicleClass(4, data.F4);
+            CalcHelper.SetFbyVehicleClass(5, data.F5);
+            CalcHelper.SetFbyVehicleClass(6, data.F6);
+            CalcHelper.SetFbyVehicleClass(7, data.F7);
+            CalcHelper.SetFbyVehicleClass(8, data.F8);
+            CalcHelper.SetFbyVehicleClass(9, data.F9);
+            CalcHelper.SetFbyVehicleClass(10, data.F10);
+            CalcHelper.SetFbyVehicleClass(11, data.F11);
+            CalcHelper.SetFbyVehicleClass(12, data.F12);
+        }
+
+        private void btnOk_Click(object sender, RoutedEventArgs e)
+        {
+            if (CalcHelper.F_AxleEquivalencyFactor > 0 || CalcHelper.GetFbyVehicleClass(3) > 0)
+                btnOk.Command = DialogHost.CloseDialogCommand;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
