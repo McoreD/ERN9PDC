@@ -120,6 +120,17 @@ namespace ERN9PDC
         {
             var dlg = new AxleEquivalencyFactorsSelector();
             await DialogHost.Show(dlg);
+
+            txtF3.Text = CalcHelper.F_AxleEquivalencyFactors.F3.ToString();
+            txtF4.Text = CalcHelper.F_AxleEquivalencyFactors.F4.ToString();
+            txtF5.Text = CalcHelper.F_AxleEquivalencyFactors.F5.ToString();
+            txtF6.Text = CalcHelper.F_AxleEquivalencyFactors.F6.ToString();
+            txtF7.Text = CalcHelper.F_AxleEquivalencyFactors.F7.ToString();
+            txtF8.Text = CalcHelper.F_AxleEquivalencyFactors.F8.ToString();
+            txtF9.Text = CalcHelper.F_AxleEquivalencyFactors.F9.ToString();
+            txtF10.Text = CalcHelper.F_AxleEquivalencyFactors.F10.ToString();
+            txtF11.Text = CalcHelper.F_AxleEquivalencyFactors.F11.ToString();
+            txtF12.Text = CalcHelper.F_AxleEquivalencyFactors.F12.ToString();
         }
 
         private void tcTrafficMethods_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,6 +195,23 @@ namespace ERN9PDC
         private void txtC12_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalcHelper.SetAxleEquivalencyFactors(12, txtC12.Text, txtF12.Text);
+            UpdateGuiControls();
+        }
+
+        private void btnRandomC_Click(object sender, RoutedEventArgs e)
+        {
+            Random rnd = new Random();
+            txtC3.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC4.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC5.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC6.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC7.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC8.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC9.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC10.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC11.Text = (rnd.NextDouble() * 10).ToString("0.00");
+            txtC12.Text = (rnd.NextDouble() * 10).ToString("0.00");
+
             UpdateGuiControls();
         }
     }

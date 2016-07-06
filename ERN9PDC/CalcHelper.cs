@@ -21,6 +21,8 @@ namespace ERN9PDC
         public static double R_CumulativeGrowthFactor { get; private set; }
         public static double ESA_DesignTraffic { get; private set; }
 
+        public static AxleEquivalencyFactorData1 F_AxleEquivalencyFactors { get; private set; }
+
         private static double[,] cF = new double[10, 2]; // 10 pairs array
 
         private static uint TryParseUint(string txt)
@@ -57,6 +59,11 @@ namespace ERN9PDC
             F_AxleEquivalencyFactor = F;
         }
 
+        public static void SetAxleEquivalencyFactors(AxleEquivalencyFactorData1 f)
+        {
+            F_AxleEquivalencyFactors = f;
+        }
+
         public static void SetAxleEquivalencyFactor(string txt)
         {
             F_AxleEquivalencyFactor = TryParseDouble(txt);
@@ -91,7 +98,7 @@ namespace ERN9PDC
         public static void SetHeavyVehiclePercentage(string txt)
         {
             double r = TryParseDouble(txt);
-            if (r > 1) r = r / 100.0;
+            if (r >= 1) r = r / 100.0;
             r_HeavyTrafficGrowtRate = r;
         }
 

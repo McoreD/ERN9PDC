@@ -53,7 +53,7 @@ namespace ERN9PDC
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            if (CalcHelper.F_AxleEquivalencyFactor > 0)
+            if (CalcHelper.F_AxleEquivalencyFactor > 0 || CalcHelper.F_AxleEquivalencyFactors != null)
                 btnOk.Command = DialogHost.CloseDialogCommand;
         }
 
@@ -61,14 +61,14 @@ namespace ERN9PDC
         {
             lvFactorsGeneral.SelectedIndex = -1;
             if (lvFactorsSpecific.SelectedIndex > -1)
-                CalcHelper.SetAxleEquivalencyFactor(((AxleEquivalencyFactorData1)lvFactorsSpecific.SelectedItem).F3);
+                CalcHelper.SetAxleEquivalencyFactors(((AxleEquivalencyFactorData1)lvFactorsSpecific.SelectedItem));
         }
 
         private void lvFactorsGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             lvFactorsSpecific.SelectedIndex = -1;
             if (lvFactorsGeneral.SelectedIndex > -1)
-                CalcHelper.SetAxleEquivalencyFactor(((AxleEquivalencyFactorData1)lvFactorsGeneral.SelectedItem).F3);
+                CalcHelper.SetAxleEquivalencyFactors(((AxleEquivalencyFactorData1)lvFactorsGeneral.SelectedItem));
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

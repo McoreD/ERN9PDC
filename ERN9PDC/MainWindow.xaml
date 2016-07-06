@@ -77,7 +77,7 @@
                 <TabItem Header="Method 1">
                     <StackPanel>
                         <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" VerticalAlignment="Center">Percentage of heavy vehicles by class, c3 to c12</TextBlock>
-                        <Grid Margin="0,5">
+                        <Grid x:Name="gridC" Margin="0,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -94,6 +94,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center">c3</TextBlock>
@@ -108,21 +109,26 @@
                             <TextBlock Grid.Row="0" Grid.Column="9" HorizontalAlignment="Center">c12</TextBlock>
                             <TextBlock Grid.Row="0" Grid.Column="10" HorizontalAlignment="Center">HV%</TextBlock>
 
-                            <TextBox Grid.Row="1" Grid.Column="0" x:Name="txtC3" Margin="0,0,5,0" TextChanged="txtC3_TextChanged" ></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtC4" Margin="0,0,5,0" TextChanged="txtC4_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="2" x:Name="txtC5" Margin="0,0,5,0" TextChanged="txtC5_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtC6" Margin="0,0,5,0" TextChanged="txtC6_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="4" x:Name="txtC7" Margin="0,0,5,0" TextChanged="txtC7_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="5" x:Name="txtC8" Margin="0,0,5,0" TextChanged="txtC8_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="6" x:Name="txtC9" Margin="0,0,5,0" TextChanged="txtC9_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="7" x:Name="txtC10" Margin="0,0,5,0" TextChanged="txtC10_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="8" x:Name="txtC11" Margin="0,0,5,0" TextChanged="txtC11_TextChanged"></TextBox>
-                            <TextBox Grid.Row="1" Grid.Column="9" x:Name="txtC12" TextChanged="txtC12_TextChanged"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="0" x:Name="txtC3" Margin="0,0,5,0" TextChanged="txtC3_TextChanged" VerticalContentAlignment="Center" VerticalAlignment="Center" ></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtC4" Margin="0,0,5,0" TextChanged="txtC4_TextChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="2" x:Name="txtC5" Margin="0,0,5,0" TextChanged="txtC5_TextChanged" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtC6" Margin="0,0,5,0" TextChanged="txtC6_TextChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="4" x:Name="txtC7" Margin="0,0,5,0" TextChanged="txtC7_TextChanged" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="5" x:Name="txtC8" Margin="0,0,5,0" TextChanged="txtC8_TextChanged" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="6" x:Name="txtC9" Margin="0,0,5,0" TextChanged="txtC9_TextChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="7" x:Name="txtC10" Margin="0,0,5,0" TextChanged="txtC10_TextChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="8" x:Name="txtC11" Margin="0,0,5,0" TextChanged="txtC11_TextChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                            <TextBox Grid.Row="1" Grid.Column="9" x:Name="txtC12" TextChanged="txtC12_TextChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
                             <TextBlock Grid.Row="1" Grid.Column="10" x:Name="tbHVPerc" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                            <Button Grid.Row="1" Grid.Column="11" Margin="5" x:Name="btnRandomC" ToolTip="Select random distribution" Click="btnRandomC_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="Dice" />
+                                </StackPanel>
+                            </Button>
                         </Grid>
 
                         <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" VerticalAlignment="Center">Axle Equivalency Factors, F3 to F12</TextBlock>
-                        <Grid Margin="0,5">
+                        <Grid x:Name="gridF" Margin="0,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
