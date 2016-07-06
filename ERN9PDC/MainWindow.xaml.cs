@@ -33,52 +33,7 @@ namespace ERN9PDC
             gridF.Visibility = Visibility.Collapsed;
         }
 
-        private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            CalcHelper.SetCbrSubgrade((uint)sliderSubgradeCBR.Value);
-            UpdateGuiControls();
-        }
-
-        private async void btnLaneDistributionFactor_Click(object sender, RoutedEventArgs e)
-        {
-            LaneDistributionFactorSelector dlg = new LaneDistributionFactorSelector();
-            await DialogHost.Show(dlg);
-            txtLaneDistributionFactor.Text = CalcHelper.d_LaneDistributionFactor.ToString();
-        }
-
-        private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)
-        {
-            if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod2)
-            {
-                var dlg = new AxleEquivalencyFactorSelector();
-                await DialogHost.Show(dlg);
-
-                txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
-            }
-            else
-            {
-                var dlg = new AxleEquivalencyFactorsSelector();
-                await DialogHost.Show(dlg);
-
-                txtF3.Text = CalcHelper.F_AxleEquivalencyFactors.F3.ToString();
-                txtF4.Text = CalcHelper.F_AxleEquivalencyFactors.F4.ToString();
-                txtF5.Text = CalcHelper.F_AxleEquivalencyFactors.F5.ToString();
-                txtF6.Text = CalcHelper.F_AxleEquivalencyFactors.F6.ToString();
-                txtF7.Text = CalcHelper.F_AxleEquivalencyFactors.F7.ToString();
-                txtF8.Text = CalcHelper.F_AxleEquivalencyFactors.F8.ToString();
-                txtF9.Text = CalcHelper.F_AxleEquivalencyFactors.F9.ToString();
-                txtF10.Text = CalcHelper.F_AxleEquivalencyFactors.F10.ToString();
-                txtF11.Text = CalcHelper.F_AxleEquivalencyFactors.F11.ToString();
-                txtF12.Text = CalcHelper.F_AxleEquivalencyFactors.F12.ToString();
-            }
-        }
-
-        private void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalcHelper.SetAADT(txtAADT.Text);
-
-            UpdateGuiControls();
-        }
+        #region Pavement data
 
         private void txtP_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -92,60 +47,92 @@ namespace ERN9PDC
             UpdateGuiControls();
         }
 
+        private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            CalcHelper.SetCbrSubgrade((uint)sliderSubgradeCBR.Value);
+            UpdateGuiControls();
+        }
+
+        #endregion Pavement data
+
+        private async void btnLaneDistributionFactor_Click(object sender, RoutedEventArgs e)
+        {
+            LaneDistributionFactorSelector dlg = new LaneDistributionFactorSelector();
+            await DialogHost.Show(dlg);
+            txtLaneDistributionFactor.Text = CalcHelper.d_LaneDistributionFactor.ToString();
+        }
+
+        #region Traffic data
+
+        private void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAADT(txtAADT.Text);
+
+            UpdateGuiControls();
+        }
+
         private void txtHVGrowthRate_r1_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalcHelper.SetHVGrowthRate_r1(txtHVGrowthRate_r1.Text);
             UpdateGuiControls();
         }
 
-        private void txtESA_DesignTraffic_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtHVGrowthRate_r2_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetESA(txtESA_DesignTraffic.Text);
+            CalcHelper.SetHVGrowthRate_r2(txtHVGrowthRate_r2.Text);
             UpdateGuiControls();
         }
 
-        private void btnCalcESA_Click(object sender, RoutedEventArgs e)
+        private void sliderQ_PavementDesignLife_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            txtESA_DesignTraffic.Text = CalcHelper.GetESA().ToString("G3", CultureInfo.InvariantCulture);
+            CalcHelper.Q_PavementDesignLifeFor_r1 = (uint)sliderQ_PavementDesignLife.Value;
+
+            txtQ_PavementLife.Text = sliderQ_PavementDesignLife.Value.ToString("0");
+            txtPavementLifeRemaining.Text = (CalcHelper.P_PavementDesignLife - sliderQ_PavementDesignLife.Value).ToString("0");
+
+            if (sliderQ_PavementDesignLife.Value == sliderQ_PavementDesignLife.Maximum)
+            {
+                tbr1.Text = "Annual heavy vehicle growth rate, r (%)";
+                spGrowthRate2.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                tbr1.Text = "Annual heavy vehicle growth rates, r1 (%)";
+                spGrowthRate2.Visibility = Visibility.Visible;
+            }
+
             UpdateGuiControls();
         }
 
-        private void txtAxleEquivalencyFactor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalcHelper.SetAxleEquivalencyFactor(txtAxleEquivalencyFactor.Text);
-        }
+        #endregion Traffic data
 
-        private async void UpdateGuiControls()
+        #region Traffic methods
+
+        private void rbTrafficMethod2_Checked(object sender, RoutedEventArgs e)
         {
             if (IsGuiReady)
             {
-                txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
-
-                if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod1)
-                {
-                    txtHVperc.Text = CalcHelper.SetHVGrowthRate_r1().ToString("0.00");
-                    txtAxleEquivalencyFactor.Text = CalcHelper.GetAECperHV().ToString("0.00");
-                }
-
-                if (CalcHelper.SetHVGrowthRate_r1() > 100.0) // causes dialog is already open sometimes
-                {
-                    var dlg = new CustomMessageBox("Total percentage of heavy vehicles is over 100%.");
-                    await DialogHost.Show(dlg);
-                }
-                else
-                {
-                    txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
-                    txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
-                    txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
-                    txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
-                }
+                gridC.Visibility = Visibility.Collapsed;
+                gridF.Visibility = Visibility.Collapsed;
+                btnRandomC.Visibility = Visibility.Hidden;
             }
+
+            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod2;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void rbTrafficMethod1_Checked(object sender, RoutedEventArgs e)
         {
-            IsGuiReady = true;
+            if (IsGuiReady)
+            {
+                gridC.Visibility = Visibility.Visible;
+                gridF.Visibility = Visibility.Visible;
+                btnRandomC.Visibility = Visibility.Visible;
+            }
+
+            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod1;
         }
+
+        #endregion Traffic methods
 
         #region Traffic Method 1 - Grid for c
 
@@ -228,55 +215,88 @@ namespace ERN9PDC
             UpdateGuiControls();
         }
 
-        private void rbTrafficMethod2_Checked(object sender, RoutedEventArgs e)
-        {
-            if (IsGuiReady)
-            {
-                gridC.Visibility = Visibility.Collapsed;
-                gridF.Visibility = Visibility.Collapsed;
-                btnRandomC.Visibility = Visibility.Hidden;
-            }
+        #region Axle Equivalency Factor methods, F
 
-            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod2;
+        private void txtAxleEquivalencyFactor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetAxleEquivalencyFactor(txtAxleEquivalencyFactor.Text);
         }
 
-        private void rbTrafficMethod1_Checked(object sender, RoutedEventArgs e)
+        private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)
         {
-            if (IsGuiReady)
+            if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod2)
             {
-                gridC.Visibility = Visibility.Visible;
-                gridF.Visibility = Visibility.Visible;
-                btnRandomC.Visibility = Visibility.Visible;
-            }
+                var dlg = new AxleEquivalencyFactorSelector();
+                await DialogHost.Show(dlg);
 
-            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod1;
-        }
-
-        private void sliderGrowthRate1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            CalcHelper.Q_PavementDesignLifeFor_r1 = (uint)sliderQ_PavementDesignLife.Value;
-
-            txtQ_PavementLife.Text = sliderQ_PavementDesignLife.Value.ToString("0");
-            txtPavementLifeRemaining.Text = (CalcHelper.P_PavementDesignLife - sliderQ_PavementDesignLife.Value).ToString("0");
-
-            if (sliderQ_PavementDesignLife.Value == sliderQ_PavementDesignLife.Maximum)
-            {
-                tbr1.Text = "Annual heavy vehicle growth rate, r (%)";
-                spGrowthRate2.Visibility = Visibility.Collapsed;
+                txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
             }
             else
             {
-                tbr1.Text = "Annual heavy vehicle growth rates, r1 (%)";
-                spGrowthRate2.Visibility = Visibility.Visible;
-            }
+                var dlg = new AxleEquivalencyFactorsSelector();
+                await DialogHost.Show(dlg);
 
+                txtF3.Text = CalcHelper.F_AxleEquivalencyFactors.F3.ToString();
+                txtF4.Text = CalcHelper.F_AxleEquivalencyFactors.F4.ToString();
+                txtF5.Text = CalcHelper.F_AxleEquivalencyFactors.F5.ToString();
+                txtF6.Text = CalcHelper.F_AxleEquivalencyFactors.F6.ToString();
+                txtF7.Text = CalcHelper.F_AxleEquivalencyFactors.F7.ToString();
+                txtF8.Text = CalcHelper.F_AxleEquivalencyFactors.F8.ToString();
+                txtF9.Text = CalcHelper.F_AxleEquivalencyFactors.F9.ToString();
+                txtF10.Text = CalcHelper.F_AxleEquivalencyFactors.F10.ToString();
+                txtF11.Text = CalcHelper.F_AxleEquivalencyFactors.F11.ToString();
+                txtF12.Text = CalcHelper.F_AxleEquivalencyFactors.F12.ToString();
+            }
+        }
+
+        #endregion Axle Equivalency Factor methods, F
+
+        #region ESA
+
+        private void txtESA_DesignTraffic_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetESA(txtESA_DesignTraffic.Text);
             UpdateGuiControls();
         }
 
-        private void txtr2_HeavyTrafficGrowthRate_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnCalcESA_Click(object sender, RoutedEventArgs e)
         {
-            CalcHelper.SetHVGrowthRate_r2(txtHVGrowthRate_r2.Text);
+            txtESA_DesignTraffic.Text = CalcHelper.GetESA().ToString("G3", CultureInfo.InvariantCulture);
             UpdateGuiControls();
+        }
+
+        #endregion ESA
+
+        private async void UpdateGuiControls()
+        {
+            if (IsGuiReady)
+            {
+                txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
+
+                if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod1)
+                {
+                    txtHVperc.Text = CalcHelper.SetHVGrowthRate_r1().ToString("0.00");
+                    txtAxleEquivalencyFactor.Text = CalcHelper.GetAECperHV().ToString("0.00");
+                }
+
+                if (CalcHelper.SetHVGrowthRate_r1() > 100.0) // causes dialog is already open sometimes
+                {
+                    var dlg = new CustomMessageBox("Total percentage of heavy vehicles is over 100%.");
+                    await DialogHost.Show(dlg);
+                }
+                else
+                {
+                    txtThicknessGranular.Text = CalcHelper.GetThicknessGranuar().ToString();
+                    txtThicknessBasecourse.Text = CalcHelper.GetThicknessBasecourse().ToString();
+                    txtThicknessGranularRounded.Text = CalcHelper.GetThicknessGranuarRounded().ToString();
+                    txtThicknessBasecourseRounded.Text = CalcHelper.GetThicknessBasecourseRounded().ToString();
+                }
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsGuiReady = true;
         }
     }
 }

@@ -44,24 +44,23 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Initial number of vehicles daily in one direction (1-way AADT), n</TextBlock>
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtAADT" md:TextFieldAssist.Hint="2000" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtAADT_TextChanged" />
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,5">Initial number of vehicles daily in one direction (1-way AADT), n</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtAADT" md:TextFieldAssist.Hint="2000" VerticalContentAlignment="Center" Margin="5,0,0,5" HorizontalContentAlignment="Right" TextChanged="txtAADT_TextChanged" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" x:Name="tbr1" VerticalAlignment="Center" HorizontalAlignment="Right">Annual heavy vehicle growth rate, r (%)</TextBlock>
                 <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                     <TextBox x:Name="txtHVGrowthRate_r1" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="5,0" HorizontalContentAlignment="Right" TextChanged="txtHVGrowthRate_r1_TextChanged" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0">for</TextBlock>
-                    <Slider x:Name="sliderQ_PavementDesignLife"  LargeChange="5" Maximum="100" SmallChange="1" DockPanel.Dock="Right" AutoToolTipPlacement="BottomRight" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="100" Margin="0,0,5,0" ValueChanged="sliderGrowthRate1_ValueChanged" />
+                    <Slider x:Name="sliderQ_PavementDesignLife"  LargeChange="5" Maximum="100" SmallChange="1" DockPanel.Dock="Right" AutoToolTipPlacement="BottomRight" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="100" Margin="0,0,5,0" ValueChanged="sliderQ_PavementDesignLife_ValueChanged" />
                     <StackPanel x:Name="spGrowthRate2" Orientation="Horizontal" Visibility="Collapsed">
                         <TextBox x:Name="txtQ_PavementLife" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"></TextBox>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0">years and r2 (%)</TextBlock>
-                        <TextBox x:Name="txtHVGrowthRate_r2" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="0,0,5,0" HorizontalContentAlignment="Right" TextChanged="txtr2_HeavyTrafficGrowthRate_TextChanged" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox x:Name="txtHVGrowthRate_r2" md:TextFieldAssist.Hint="3" VerticalContentAlignment="Center" Margin="0,0,5,0" HorizontalContentAlignment="Right" TextChanged="txtHVGrowthRate_r2_TextChanged" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"> for</TextBlock>
                         <TextBox x:Name="txtPavementLifeRemaining" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"></TextBox>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"> years</TextBlock>
                     </StackPanel>
                 </StackPanel>
-                <Button  Grid.Row="1" Grid.Column="2" Margin="5" ToolTip="Two traffic growth rates" IsTabStop="False">...</Button>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
                 <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtLaneDistributionFactor" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
