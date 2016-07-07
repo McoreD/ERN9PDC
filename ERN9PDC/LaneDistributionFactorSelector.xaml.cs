@@ -36,7 +36,7 @@ namespace ERN9PDC
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            if (CalcHelper.d_LaneDistributionFactor > 0)
+            if (CalcHelper.Settings.d_LaneDistributionFactor > 0)
                 btnOk.Command = DialogHost.CloseDialogCommand;
         }
 

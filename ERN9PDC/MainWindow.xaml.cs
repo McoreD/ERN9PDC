@@ -1,5 +1,6 @@
 ﻿using HelpersLib;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -39,10 +40,10 @@ namespace ERN9PDC
         {
             CalcHelper.SetPavementDesignLife(txtP_PavementDesignLife.Text);
 
-            if (CalcHelper.P_PavementDesignLife > 0)
+            if (CalcHelper.Settings.P_PavementDesignLife > 0)
             {
                 spGrowthRate1.Visibility = Visibility.Visible;
-                sliderQ_PavementDesignLife.Value = sliderQ_PavementDesignLife.Maximum = CalcHelper.P_PavementDesignLife;
+                sliderQ_PavementDesignLife.Value = sliderQ_PavementDesignLife.Maximum = CalcHelper.Settings.P_PavementDesignLife;
             }
 
             UpdateGuiControls();
@@ -60,7 +61,7 @@ namespace ERN9PDC
         {
             LaneDistributionFactorSelector dlg = new LaneDistributionFactorSelector();
             await DialogHost.Show(dlg);
-            txtLaneDistributionFactor.Text = CalcHelper.d_LaneDistributionFactor.ToString();
+            txtLaneDistributionFactor.Text = CalcHelper.Settings.d_LaneDistributionFactor.ToString();
         }
 
         #region Traffic data
@@ -86,10 +87,10 @@ namespace ERN9PDC
 
         private void sliderQ_PavementDesignLife_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CalcHelper.Q_PavementDesignLifeFor_r1 = (uint)sliderQ_PavementDesignLife.Value;
+            CalcHelper.Settings.Q_PavementDesignLifeFor_r1 = (uint)sliderQ_PavementDesignLife.Value;
 
             txtQ_PavementLife.Text = sliderQ_PavementDesignLife.Value.ToString("0");
-            txtPavementLifeRemaining.Text = (CalcHelper.P_PavementDesignLife - sliderQ_PavementDesignLife.Value).ToString("0");
+            txtPavementLifeRemaining.Text = (CalcHelper.Settings.P_PavementDesignLife - sliderQ_PavementDesignLife.Value).ToString("0");
 
             if (sliderQ_PavementDesignLife.Value == sliderQ_PavementDesignLife.Maximum)
             {
@@ -118,7 +119,7 @@ namespace ERN9PDC
                 btnRandomC.Visibility = Visibility.Hidden;
             }
 
-            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod2;
+            CalcHelper.Settings.TrafficMethod = TrafficMethod.TrafficMethod2;
         }
 
         private void rbTrafficMethod1_Checked(object sender, RoutedEventArgs e)
@@ -130,7 +131,7 @@ namespace ERN9PDC
                 btnRandomC.Visibility = Visibility.Visible;
             }
 
-            CalcHelper.TrafficMethod = TrafficMethod.TrafficMethod1;
+            CalcHelper.Settings.TrafficMethod = TrafficMethod.TrafficMethod1;
         }
 
         #endregion Traffic methods
@@ -199,6 +200,13 @@ namespace ERN9PDC
 
         #endregion Traffic Method 1 - Grid for c
 
+        #region Traffic Method 2 for c
+
+        private void txtHVperc_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalcHelper.SetHVPerc(txtHVperc.Text);
+        }
+
         private void btnRandomC_Click(object sender, RoutedEventArgs e)
         {
             Random rnd = new Random();
@@ -216,6 +224,8 @@ namespace ERN9PDC
             UpdateGuiControls();
         }
 
+        #endregion Traffic Method 2 for c
+
         #region Axle Equivalency Factor methods, F
 
         private void txtAxleEquivalencyFactor_TextChanged(object sender, TextChangedEventArgs e)
@@ -225,12 +235,12 @@ namespace ERN9PDC
 
         private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)
         {
-            if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod2)
+            if (CalcHelper.Settings.TrafficMethod == TrafficMethod.TrafficMethod2)
             {
                 var dlg = new AxleEquivalencyFactorSelector();
                 await DialogHost.Show(dlg);
 
-                txtAxleEquivalencyFactor.Text = CalcHelper.F_AxleEquivalencyFactor.ToString();
+                txtAxleEquivalencyFactor.Text = CalcHelper.Settings.F_AxleEquivalencyFactor.ToString();
             }
             else
             {
@@ -274,7 +284,7 @@ namespace ERN9PDC
             {
                 txtR_CumulativeGrowthFactor.Text = CalcHelper.GetR().ToString();
 
-                if (CalcHelper.TrafficMethod == TrafficMethod.TrafficMethod1)
+                if (CalcHelper.Settings.TrafficMethod == TrafficMethod.TrafficMethod1)
                 {
                     txtHVperc.Text = CalcHelper.GetHVGrowthRate_r1().ToString("0.00");
                     txtAxleEquivalencyFactor.Text = CalcHelper.GetAECperHV().ToString("0.00");
@@ -298,6 +308,16 @@ namespace ERN9PDC
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             IsGuiReady = true;
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Comma Separated Values (*.csv)|*.csv";
+            if (dlg.ShowDialog() == true)
+            {
+                CalcHelper.Settings.WriteCsv(dlg.FileName);
+            }
         }
     }
 }

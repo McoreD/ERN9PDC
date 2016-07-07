@@ -81,7 +81,7 @@ namespace ERN9PDC
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            if (CalcHelper.F_AxleEquivalencyFactor > 0 || CalcHelper.GetFbyVehicleClass(3) > 0)
+            if (CalcHelper.Settings.F_AxleEquivalencyFactor > 0 || CalcHelper.GetFbyVehicleClass(3) > 0)
                 btnOk.Command = DialogHost.CloseDialogCommand;
         }
 
