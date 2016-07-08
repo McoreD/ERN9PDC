@@ -65,7 +65,7 @@
                 </StackPanel>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Percentage of heavy vehicles using design lane, d (%)</TextBlock>
-                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtLaneDistributionFactor" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtLaneDistributionFactor" md:TextFieldAssist.Hint="100" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalContentAlignment="Right" TextChanged="txtLaneDistributionFactor_TextChanged" />
                 <Button  Grid.Row="2" Grid.Column="2" Margin="5" ToolTip="Select d" Click="btnLaneDistributionFactor_Click" IsTabStop="False">...</Button>
             </Grid>
 

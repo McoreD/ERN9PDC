@@ -26,6 +26,21 @@ namespace ERN9PDC
     {
         private bool IsGuiReady = false;
 
+        private async Task<bool> IsNumeric(TextBox textBox)
+        {
+            bool isNumber = textBox.Text.IsNumber();
+
+            if (!isNumber)
+            {
+                var dlg = new CustomMessageBox("Entered value is not numeric.");
+                await DialogHost.Show(dlg);
+                textBox.Clear();
+                textBox.Focus();
+            }
+
+            return isNumber;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,17 +51,20 @@ namespace ERN9PDC
 
         #region Pavement data
 
-        private void txtP_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtP_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetPavementDesignLife(txtP_PavementDesignLife.Text);
-
-            if (CalcHelper.Settings.P_PavementDesignLife > 0)
+            if (await IsNumeric(txtP_PavementDesignLife))
             {
-                spGrowthRate1.Visibility = Visibility.Visible;
-                sliderQ_PavementDesignLife.Value = sliderQ_PavementDesignLife.Maximum = CalcHelper.Settings.P_PavementDesignLife;
-            }
+                CalcHelper.SetPavementDesignLife(txtP_PavementDesignLife.Text);
 
-            UpdateGuiControls();
+                if (CalcHelper.Settings.P_PavementDesignLife > 0)
+                {
+                    spGrowthRate1.Visibility = Visibility.Visible;
+                    sliderQ_PavementDesignLife.Value = sliderQ_PavementDesignLife.Maximum = CalcHelper.Settings.P_PavementDesignLife;
+                }
+
+                UpdateGuiControls();
+            }
         }
 
         private void sliderSubgradeCBR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -57,32 +75,49 @@ namespace ERN9PDC
 
         #endregion Pavement data
 
+        #region Traffic data
+
+        private async void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (await IsNumeric(txtAADT))
+            {
+                CalcHelper.SetAADT(txtAADT.Text);
+                UpdateGuiControls();
+            }
+        }
+
+        private async void txtHVGrowthRate_r1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (await IsNumeric(txtHVGrowthRate_r1))
+            {
+                CalcHelper.SetHVGrowthRate_r1(txtHVGrowthRate_r1.Text);
+                UpdateGuiControls();
+            }
+        }
+
+        private async void txtHVGrowthRate_r2_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (await IsNumeric(txtHVGrowthRate_r2))
+            {
+                CalcHelper.SetHVGrowthRate_r2(txtHVGrowthRate_r2.Text);
+                UpdateGuiControls();
+            }
+        }
+
+        private async void txtLaneDistributionFactor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (await IsNumeric(txtLaneDistributionFactor))
+            {
+                CalcHelper.SetLaneDistributionFactor(txtLaneDistributionFactor.Text);
+                UpdateGuiControls();
+            }
+        }
+
         private async void btnLaneDistributionFactor_Click(object sender, RoutedEventArgs e)
         {
             LaneDistributionFactorSelector dlg = new LaneDistributionFactorSelector();
             await DialogHost.Show(dlg);
             txtLaneDistributionFactor.Text = CalcHelper.Settings.d_LaneDistributionFactor.ToString();
-        }
-
-        #region Traffic data
-
-        private void txtAADT_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalcHelper.SetAADT(txtAADT.Text);
-
-            UpdateGuiControls();
-        }
-
-        private void txtHVGrowthRate_r1_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalcHelper.SetHVGrowthRate_r1(txtHVGrowthRate_r1.Text);
-            UpdateGuiControls();
-        }
-
-        private void txtHVGrowthRate_r2_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalcHelper.SetHVGrowthRate_r2(txtHVGrowthRate_r2.Text);
-            UpdateGuiControls();
         }
 
         private void sliderQ_PavementDesignLife_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -138,64 +173,94 @@ namespace ERN9PDC
 
         #region Traffic Method 1 - Grid for c
 
-        private void txtC3_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC3_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(3, txtC3.Text, txtF3.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC3))
+            {
+                CalcHelper.SetTrafficData(3, txtC3.Text, txtF3.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC4_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC4_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(4, txtC4.Text, txtF4.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC4))
+            {
+                CalcHelper.SetTrafficData(4, txtC4.Text, txtF4.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC5_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC5_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(5, txtC5.Text, txtF5.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC5))
+            {
+                CalcHelper.SetTrafficData(5, txtC5.Text, txtF5.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC6_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC6_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(6, txtC6.Text, txtF6.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC6))
+            {
+                CalcHelper.SetTrafficData(6, txtC6.Text, txtF6.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC7_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC7_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(7, txtC7.Text, txtF7.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC7))
+            {
+                CalcHelper.SetTrafficData(7, txtC7.Text, txtF7.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC8_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC8_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(8, txtC8.Text, txtF8.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC8))
+            {
+                CalcHelper.SetTrafficData(8, txtC8.Text, txtF8.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC9_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC9_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(9, txtC9.Text, txtF9.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC9))
+            {
+                CalcHelper.SetTrafficData(9, txtC9.Text, txtF9.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC10_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC10_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(10, txtC10.Text, txtF10.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC10))
+            {
+                CalcHelper.SetTrafficData(10, txtC10.Text, txtF10.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC11_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC11_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(11, txtC11.Text, txtF11.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC11))
+            {
+                CalcHelper.SetTrafficData(11, txtC11.Text, txtF11.Text);
+                UpdateGuiControls();
+            }
         }
 
-        private void txtC12_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtC12_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetTrafficData(12, txtC12.Text, txtF12.Text);
-            UpdateGuiControls();
+            if (await IsNumeric(txtC12))
+            {
+                CalcHelper.SetTrafficData(12, txtC12.Text, txtF12.Text);
+                UpdateGuiControls();
+            }
         }
 
         #endregion Traffic Method 1 - Grid for c
@@ -228,9 +293,10 @@ namespace ERN9PDC
 
         #region Axle Equivalency Factor methods, F
 
-        private void txtAxleEquivalencyFactor_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtAxleEquivalencyFactor_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetAxleEquivalencyFactor(txtAxleEquivalencyFactor.Text);
+            if (await IsNumeric(txtAxleEquivalencyFactor))
+                CalcHelper.SetAxleEquivalencyFactor(txtAxleEquivalencyFactor.Text);
         }
 
         private async void btnAxleEquivalencyFactor_Click(object sender, RoutedEventArgs e)

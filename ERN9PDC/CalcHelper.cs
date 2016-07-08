@@ -73,10 +73,19 @@ namespace ERN9PDC
 
         #endregion r1 and r2
 
+        #region d Lane Distribution Factor
+
+        public static void SetLaneDistributionFactor(string txt)
+        {
+            Settings.d_LaneDistributionFactor = TryParseUint(txt);
+        }
+
         public static void SetLaneDistributionFactor(uint d)
         {
             Settings.d_LaneDistributionFactor = d;
         }
+
+        #endregion d Lane Distribution Factor
 
         public static void SetHVPerc(string txt)
         {
