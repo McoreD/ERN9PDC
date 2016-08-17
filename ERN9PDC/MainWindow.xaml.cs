@@ -30,7 +30,7 @@ namespace ERN9PDC
         {
             bool isNumber = textBox.Text.IsNumber();
 
-            if (!isNumber)
+            if (textBox.Text.Length > 0 && !isNumber)
             {
                 var dlg = new CustomMessageBox("Entered value is not numeric.");
                 await DialogHost.Show(dlg);
@@ -143,7 +143,7 @@ namespace ERN9PDC
 
         #endregion Traffic data
 
-        #region Traffic methods
+        #region Traffic methods - Radio Buttons
 
         private void rbTrafficMethod2_Checked(object sender, RoutedEventArgs e)
         {
@@ -169,7 +169,7 @@ namespace ERN9PDC
             CalcHelper.Settings.TrafficMethod = TrafficMethod.TrafficMethod1;
         }
 
-        #endregion Traffic methods
+        #endregion Traffic methods - Radio Buttons
 
         #region Traffic Method 1 - Grid for c
 
@@ -267,9 +267,10 @@ namespace ERN9PDC
 
         #region Traffic Method 2 for c
 
-        private void txtHVperc_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtHVperc_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CalcHelper.SetHVPerc(txtHVperc.Text);
+            if (await IsNumeric(txtHVperc))
+                CalcHelper.SetHVPerc(txtHVperc.Text);
         }
 
         private void btnRandomC_Click(object sender, RoutedEventArgs e)
