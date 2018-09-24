@@ -47,7 +47,7 @@ namespace ERN9PDC
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            btnOk.Command = DialogHost.CloseDialogCommand;
+            btnCancel.Command = DialogHost.CloseDialogCommand;
         }
     }
 }
